@@ -29,7 +29,7 @@
 
 expressions
     : e EOF
-        { typeof console !== 'undefined' ? console.log($1) : print($1);
+        { typeof console !== 'undefined' ? console.log(JSON.stringify($1)) : print($1);
           return $1; }
     ;
 
@@ -38,15 +38,13 @@ e
         { $$ = [$2].concat([$3])}
     | NUMBER
         { $$ = Number(yytext);}
-    | E
-        {$$ = Math.E;}
-    | PI
-        {$$ = Math.PI;}
     ;
 
 args
     : args NUMBER
         { $$ = $1.concat($2)}
+    |args e
+        { $$ = $1.concat([$2])}
     | NUMBER
         { $$ = [$1]}
     ;
